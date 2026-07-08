@@ -247,7 +247,11 @@
 /* end of security packages */
 
 /* language packages */
-
+#define PKG_USING_RTDUINO
+#define RTDUINO_THREAD_SIZE 2048
+#define RTDUINO_THREAD_PRIO 30
+#define RTDUINO_SUPPORT_HIGH_PRECISION_MICROS
+#define PKG_USING_RTDUINO_LATEST_VERSION
 /* JSON: JavaScript Object Notation, a lightweight data-interchange format */
 
 /* end of JSON: JavaScript Object Notation, a lightweight data-interchange format */
