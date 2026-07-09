@@ -15,10 +15,12 @@
 
 #include <rtdevice.h>
 #include "drv_pin.h"
-#include <rtthread.h>
+
+#define LED_PIN        ((3*32)+18)  /* Original LED pin */
 #define BUTTON_PIN     ((1*32)+7)   /* P1_7 button pin */
 
 static rt_bool_t led_state = RT_FALSE;        /* Current LED state */
+
 
 
 /* Button interrupt callback function */
@@ -39,11 +41,11 @@ int main(void)
     rt_kprintf("using gcc, version: %d.%d\n", __GNUC__, __GNUC_MINOR__);
 #endif
 
-    //rt_kprintf("FRDM-MCXA366\r\n");
+    rt_kprintf("FRDM-MCXA366\r\n");
 
     /* Configure LED pin as output */
-//    rt_pin_mode(LED_PIN, PIN_MODE_OUTPUT);
-//    rt_pin_write(LED_PIN, PIN_LOW);
+    rt_pin_mode(LED_PIN, PIN_MODE_OUTPUT);
+    rt_pin_write(LED_PIN, PIN_LOW);
 
     /* Configure button pin as input with pull-up */
     rt_pin_mode(BUTTON_PIN, PIN_MODE_INPUT_PULLUP);
@@ -55,12 +57,11 @@ int main(void)
 
     while (1)
     {
+        /* Toggle LED state */
+        led_state = !led_state;
+
+        rt_pin_write(LED_PIN, led_state ? PIN_HIGH : PIN_LOW);
+
         rt_thread_mdelay(500);
     }
 }
-
-void cmd_reboot(void)
-{
-    rt_hw_cpu_reset();
-}
-MSH_CMD_EXPORT_ALIAS(cmd_reboot, reboot, Reboot);
